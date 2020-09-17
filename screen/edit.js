@@ -7,7 +7,7 @@ export class EditNote extends Component {
 
     componentDidMount() {
 
-        return fetch('http://localhost:8080/api/notes')
+        return fetch('http://192.168.0.147:8080/api/notes')
             .then((response) => response.json())
             .then((responseJson) => {
                 let ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
@@ -51,7 +51,7 @@ export class EditNote extends Component {
 
     UpdateNote = () =>{
 
-        fetch('http://localhost:8080/api/notes/' + this.props.route.params.id, {
+        fetch('http://192.168.0.147:8080/api/notes/' + this.props.route.params.id, {
             method: 'PUT',
             headers: {
                 'Accept': 'application/json',
@@ -73,7 +73,7 @@ export class EditNote extends Component {
 
     DeleteNote = () =>{
 
-        fetch('http://localhost:8080/api/notes/' + this.props.route.params.id, {
+        fetch('http://192.168.0.147:8080/api/notes/' + this.props.route.params.id, {
             method: 'DELETE',
             headers: {
                 'Accept': 'application/json',

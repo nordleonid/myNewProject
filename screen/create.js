@@ -25,7 +25,7 @@ export class AddNewNote extends Component {
 
     Add_Note_To_Server = () =>{
 
-        fetch('http://localhost:8080/api/notes', {
+        fetch('http://192.168.0.147:8080/api/notes', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',

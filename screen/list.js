@@ -20,7 +20,7 @@ export class ShowListNotes extends Component {
 
     componentDidMount() {
 
-        return fetch('http://localhost:8080/api/notes')
+        return fetch('http://192.168.0.147:8080/api/notes')
             .then((response) => response.json())
             .then((responseJson) => {
                 let ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
