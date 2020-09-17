@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {ActivityIndicator, ListView, Text, View} from "react-native";
+import {ActivityIndicator, FlatList, Text, View} from "react-native";
 import { styles } from "./styles/styleSheet";
 
 
@@ -10,7 +10,6 @@ export class ShowListNotes extends Component {
         super(props);
 
         this.state = {
-
             isLoading: true
 
         }
@@ -22,15 +21,23 @@ export class ShowListNotes extends Component {
 
         return fetch('http://192.168.0.147:8080/api/notes')
             .then((response) => response.json())
-            .then((responseJson) => {
-                let ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+            //.then(responseJson => responseJson.forEach(element => element.id.toString()))
+            .then(responseJsonIdStr => {
                 this.setState({
                     isLoading: false,
-                    dataSource: ds.cloneWithRows(responseJson),
-                }, function() {
-
+                    dataSource: responseJsonIdStr
                 });
+
             })
+            // .then((responseJson) => {
+            //     let ds = new FlatList.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+            //     this.setState({
+            //         isLoading: false,
+            //         dataSource: ds.cloneWithRows(responseJson),
+            //     }, function() {
+            //
+            //     });
+            // })
             .catch((error) => {
                 console.error(error);
             });
@@ -47,7 +54,7 @@ export class ShowListNotes extends Component {
     }
 
 
-    ListViewItem = () => {
+    FlatListItem = () => {
         return (
             <View
                 style={{
@@ -72,20 +79,22 @@ export class ShowListNotes extends Component {
 
             <View style={styles.MainContainer_For_List_Of_Notes}>
 
-                <ListView
-
-                    dataSource={this.state.dataSource}
-                    renderSeparator= {this.ListViewItem}
-                    renderRow={ (rowData) => <Text style={styles.rowViewContainer}
-                                                   onPress={this.GetNoteID.bind(
-                                                       this, rowData.id,
-                                                       rowData.title,
-                                                       rowData.content
-                                                   )} >
-                        {rowData.title}
-                        {rowData.content}
-                    </Text> }
-
+                <FlatList
+                    data={this.state.dataSource}
+                    renderItem={ ({ item })  =>
+                        <Text
+                        style={styles.rowViewContainer}
+                        onPress={this.GetNoteID.bind(
+                            this,
+                            item.id,
+                            item.title,
+                            item.content
+                        )}
+                        >
+                            {item.title}
+                            {item.content}
+                        </Text>
+                    }
                 />
 
             </View>
